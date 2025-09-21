@@ -1,0 +1,88 @@
+//events in system verilog
+module event_sv;
+  event e1,e2;
+  initial
+    begin
+      fork
+        begin
+      //procces1
+        $display("process 1 is started at %0t",$time);
+        #20;
+        $display("process 1 is finishied at %0t",$time);
+        -> e1;
+          
+        end
+        begin
+      //procces2
+          @(e2.triggered);
+          $display("process 2 is started at %0t",$time);
+        #40;
+          $display("process 2 is finishied at %0t",$time);
+         
+          
+        end
+        begin
+      //procces3
+          @(e1.triggered);
+          $display("process 3 is started at %0t",$time);
+        #30;
+          $display("process 3 is finishied at %0t",$time);
+          -> e2;
+          
+        end
+       
+      join
+    end
+endmodule
+
+
+
+
+
+
+
+=========================================================
+[2025-09-21 13:17:01 UTC] vlib work && vlog '-timescale' '1ns/1ns' design.sv testbench.sv  && vsim -c -do "vsim +access+r; run -all; exit"  
+VSIMSA: Configuration file changed: `/home/runner/library.cfg'
+ALIB: Library "work" attached.
+work = /home/runner/work/work.lib
+WARNING VCP5136 "Property .triggered used in the event control statement. The usage of the property should be limited to the wait statement." "testbench.sv" 17  25
+WARNING VCP5136 "Property .triggered used in the event control statement. The usage of the property should be limited to the wait statement." "testbench.sv" 26  25
+MESSAGE "Unit top modules: event_sv."
+SUCCESS "Compile success 0 Errors 2 Warnings  Analysis time: 0[s]."
+done
+# Aldec, Inc. Riviera-PRO version 2023.04.112.8911 built for Linux64 on May 12, 2023.
+# HDL, SystemC, and Assertions simulator, debugger, and design environment.
+# (c) 1999-2023 Aldec, Inc. All rights reserved.
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# KERNEL: Time resolution set to 1ns.
+# ELAB2: Create instances complete.
+# SLP: Started
+# SLP: Elaboration phase ...
+# SLP: Elaboration phase ... done : 0.0 [s]
+# SLP: Generation phase ...
+# SLP: Generation phase ... done : 0.1 [s]
+# SLP: Finished : 0.1 [s]
+# SLP: 0 primitives and 1 (100.00%) other processes in SLP
+# SLP: 6 (100.00%) signals in SLP and 0 interface signals
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: SLP loading done - time: 0.0 [s].
+# KERNEL: Warning: You are using the Riviera-PRO EDU Edition. The performance of simulation is reduced.
+# KERNEL: Warning: Contact Aldec for available upgrade options - sales@aldec.com.
+# KERNEL: SLP simulation initialization done - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4670 kB (elbread=427 elab2=4108 kernel=134 sdf=0)
+# KERNEL: ASDB file was created in location /home/runner/dataset.asdb
+# KERNEL: process 1 is started at 0
+# KERNEL: process 1 is finishied at 20
+# KERNEL: process 3 is started at 20
+# KERNEL: process 3 is finishied at 50
+# KERNEL: process 2 is started at 50
+# KERNEL: process 2 is finishied at 90
+# KERNEL: Simulation has finished. There are no more test vectors to simulate.
+# VSIM: Simulation has finished
