@@ -25,5 +25,9 @@ module array;
           $display("arr[%0d]==%0d",i,arr[i]);
         end
       
+      arr.delete();//the array is deleted
+      
+      $display("the deleted array=%0p",arr);
+      
     end
 endmodule
